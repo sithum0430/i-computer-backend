@@ -3,8 +3,10 @@ import mongoose from 'mongoose';
 import userRouter from './routes/userRouter.js';
 import productRouter from './routes/productRouter.js';
 import authoraizeUser from './lib/jwtMiddlewear.js';
+import dotenv from 'dotenv';
+dotenv.config();
 
-const mongoURI = "mongodb+srv://admin:sithum123@cluster0.dgyads7.mongodb.net/?appName=Cluster0" // mongoDb eken link eka aran ekat password eka dagatha
+const mongoURI = process.env.MONGO_DB_URI // mongoDb eken link eka aran ekat password eka dagatha
 mongoose.connect(mongoURI).then(
     () => {
         console.log("Connected to MongoDB");

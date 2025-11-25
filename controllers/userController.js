@@ -1,6 +1,8 @@
 import User from '../models/user.js';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
+import dotenv from 'dotenv';
+dotenv.config();
 export function createUser(req, res) {
 
     const hashedPassword = bcrypt.hashSync(req.body.password, 10);
@@ -57,7 +59,7 @@ export function loginUser(req, res) {
                             role: user.role,
                             image: user.image,
                             isEmailVerified: user.isEmailVerified,
-                        },"i-computers-54!")
+                        },process.env.JWT_SECRET_KEY)
 
                     res.json({
                         message: "Login successful",
