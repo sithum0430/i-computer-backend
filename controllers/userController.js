@@ -5,13 +5,37 @@ import dotenv from 'dotenv';
 dotenv.config();
 export function createUser(req, res) {
 
+    if(req.body.role=="admin"){
+        if(req.user == null )// meken karanne admin user ekak hadanna ona nm login wela inna ona kiyala
+        {
+            res.status(401).json(
+        {
+            message: "Please login as admin to create admin user"
+
+        })
+        return
+    }
+    if (req.user.role !="admin"){
+        res.status(401).json(
+            {
+                message: "Only admin can create admin user" 
+            })
+            return
+
+    }
+    }
+
+    console.log('createUser body:', req.body);
     const hashedPassword = bcrypt.hashSync(req.body.password, 10);
     const user =  new User({
         email: req.body.email,
         firstName: req.body.firstName,
         lastName: req.body.lastName,
         password: hashedPassword,
-        
+        role: req.body.role,
+        isBlocked: req.body.isBlocked,
+        isEmailVerified: req.body.isEmailVerified,
+        image: req.body.image
     }
     );
     user.save().then(
@@ -82,3 +106,19 @@ export function loginUser(req, res) {
 );
     
 }
+
+export function isAdmin(req){
+    if(req.user ==null){
+        return false;
+    }
+    if(req.user.role !="admin"){
+        return false;
+    }
+    return true;
+}
+
+
+
+//"email": "mainadmin1@example.com","password": "Test@1234" ---admin
+//"email": "mainadmin2 @example.com","password": "Test@1234" ---admin
+//"email": "testcustomer1@example.com","password":"Test@1234" --customer

@@ -21,15 +21,15 @@ const userSchema = new mongoose.Schema({
     role:{
         type: String,
         enum: ['customer', 'admin'],
-        required: true,
+        required: true,//2nd batch eke project eke meka na
         default: 'customer'
     },
     isBlocked: {
         type: Boolean,
         default: false,
-        required: true
+        required: true//2nd batch eke project eke meka na
     },
-    isEmailVerified: {
+    isEmailVerified: { //2nd batch eke project eke meka na
         type: Boolean,
         default: false,
         required: true

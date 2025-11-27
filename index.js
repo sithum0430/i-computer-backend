@@ -1,7 +1,6 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import userRouter from './routes/userRouter.js';
-import productRouter from './routes/productRouter.js';
 import authoraizeUser from './lib/jwtMiddlewear.js';
 import dotenv from 'dotenv';
 dotenv.config();
@@ -26,7 +25,7 @@ app.use (authoraizeUser)
 
 
 app.use("/users", userRouter);
-app.use("/products", productRouter);
+
 
 
 
