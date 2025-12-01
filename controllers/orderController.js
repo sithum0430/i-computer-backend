@@ -1,5 +1,6 @@
 import Order from '../models/order.js';    
 import { isAdmin} from '../controllers/userController.js';
+import Product from '../models/product.js';
 
 
 
@@ -32,6 +33,33 @@ export async function createOrder(req, res) {
             orderId = "CBC" + newNumber;//cbc eka athulata danna
         }
         const newOrderData = req.body;
+        //api ape request body eke ewanne product id ekai quantity ekai witharai. methanadi api ordermodel ekata awashya widihata data tika organaize karaganna one, productname eka price eka dala
+
+        const newProductArray = [];
+
+        for(let i =0;i<newOrderData.orderedItems.length;i++){
+            const product = await Product.findOne(
+                { productId: newOrderData.orderedItems[i].productId }
+            )
+            //waaradi product id ekak ewwoth null kiyala thama product id eka findone() eken enne. postman eken danagathe
+            if(product == null){
+                res.json({
+                    message: "Product with id " + newOrderData.orderedItems[i].productId + " not found"
+                });
+                return;
+            }
+            newProductArray[i]={
+                
+                name: product.productName,
+                price: product.price,
+                quantity: newOrderData.orderedItems[i].quantity,
+                image: product.image[0]
+            }
+            //quantity eka adu wenna hadanna one?????????????????
+        }
+        newOrderData.orderedItems = newProductArray;//ordered items eka productid,quantity thiyena eka productid,name,price,quantity,image thiyena widihata replace karanawa
+            
+
         newOrderData.orderId = orderId;//order id eka new order data athulata danna
         newOrderData.email = req.user.email;//login wela inna user ekage email eka order data athulata danna
 
@@ -47,7 +75,7 @@ export async function createOrder(req, res) {
         res.status(500).json({
             message: "Error creating order",
             error: error.message
-        });
+        }); 
 
     }
 }
