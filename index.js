@@ -4,6 +4,7 @@ import userRouter from './routes/userRouter.js';
 import authoraizeUser from './lib/jwtMiddlewear.js';
 import dotenv from 'dotenv';
 import productRouter from './routes/productRouter.js';
+import orderRouter from './routes/orderRouter.js';
 
 dotenv.config();
 
@@ -28,6 +29,7 @@ app.use (authoraizeUser);
 
 app.use("/users", userRouter);
 app.use("/products", productRouter);
+app.use("/orders", orderRouter);
 
 
 

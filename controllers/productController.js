@@ -21,7 +21,7 @@ export function createProduct(req, res) {
             })
         }).catch((error)=>{
             res.status(500).json({
-                message: error // error ela frontend ekata yawanna  
+                message: error // error eka frontend ekata yawanna  
             })
             console.log(error);// error ekka backend terminal eke print karaganna 
         })
